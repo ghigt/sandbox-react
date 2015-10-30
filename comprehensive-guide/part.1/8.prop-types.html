@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hello React</title>
+    <script src="node_modules/react/dist/react.js"></script>
+    <script src="node_modules/react-dom/dist/react-dom.js"></script>
+    <script src="node_modules/babel-core/browser.min.js"></script>
+  </head>
+  <body>
+
+		<div id="app"></div>
+
+		<!-- SCRIPTS -->
+
+    <script type="text/babel">
+
+			var FriendsContainer = React.createClass({
+
+				getInitialState: function() {
+					return {
+						name: 'Ghislain',
+						friends: ['Gregoire', 'Guillaume', 'Paul']
+					}
+				},
+
+				addNew: function(friend) {
+					this.setState({
+						friends: this.state.friends.concat(friend)
+					})
+				},
+
+				render: function() {
+					return (
+						<div>
+							<h1>Hello {this.state.name}</h1>
+							<AddFriend addNew={this.addNew} />
+							<ShowList names={this.state.friends} /> 
+						</div>
+					)
+				}
+
+			});
+
+			var AddFriend = React.createClass({
+
+				getInitialState: function() {
+					return {
+						name: ''
+					}
+				},
+
+				propTypes: {
+					addNew: React.PropTypes.func.isRequired
+				},
+
+				updateNewFriend: function(e) {
+					this.setState({
+						name: e.target.value
+					})
+				},
+
+				handleAddNew: function(e) {
+					e.preventDefault(); // Do not reload page
+					this.props.addNew(this.state.name)
+					this.state.name = ''
+				},
+
+				render: function() {
+					return (
+						<form onSubmit={this.handleAddNew}>
+							<input type="text" value={this.state.name} onChange={this.updateNewFriend} />
+							<button type="submit">Add</button>
+						</form>
+					)
+				}
+			})
+
+			var ShowList = React.createClass({
+
+				getDefaultProps: function() {
+					return {
+						names: []
+					}
+				},
+
+				render: function() {
+					return (
+						<div>
+						  <h3>Friends</h3>
+						  <ul>
+								{ this.props.names.map(function(friend, index) {
+						        return <li key={index}>{friend}</li>
+									}) }
+						  </ul>
+						</div>
+					)
+				}
+			})
+
+      ReactDOM.render(<FriendsContainer/>, document.getElementById('app'));
+
+    </script>
+
+  </body>
+</html>
