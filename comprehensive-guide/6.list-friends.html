@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hello React</title>
+    <script src="node_modules/react/dist/react.js"></script>
+    <script src="node_modules/react-dom/dist/react-dom.js"></script>
+    <script src="node_modules/babel-core/browser.min.js"></script>
+  </head>
+  <body>
+
+		<div id="app"></div>
+
+		<!-- SCRIPTS -->
+
+    <script type="text/babel">
+
+			var FriendsContainer = React.createClass({
+
+				getInitialState: function() {
+					return {
+						name: 'Ghislain',
+						friends: ['Gregoire', 'Guillaume', 'Paul']
+					}
+				},
+
+				render: function() {
+					return (
+						<div>
+							<h1>Hello {this.state.name}</h1>
+							<ShowList names={this.state.friends} />
+						</div>
+					)
+				}
+
+			});
+
+			var ShowList = React.createClass({
+
+				render: function() {
+					return (
+						<div>
+						  <h3>Friends</h3>
+						  <ul>
+								{ this.props.names.map(function(friend, index) {
+						        return <li key={index}>{friend}</li>
+									}) }
+						  </ul>
+						</div>
+					)
+				}
+			})
+
+      ReactDOM.render(<FriendsContainer/>, document.getElementById('app'));
+
+    </script>
+
+  </body>
+</html>

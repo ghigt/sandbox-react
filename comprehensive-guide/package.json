@@ -1,0 +1,17 @@
+{
+  "name": "comprehensive-guide",
+  "version": "1.0.0",
+  "description": "http://tylermcginnis.com/reactjs-tutorial-a-comprehensive-guide-to-building-apps-with-react/",
+  "main": "index.js",
+  "dependencies": {
+    "babel-core": "5.8.23",
+    "react": "0.14.1",
+    "react-dom": "0.14.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
