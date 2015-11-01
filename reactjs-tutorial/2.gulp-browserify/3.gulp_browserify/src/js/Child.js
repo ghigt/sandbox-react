@@ -1,4 +1,10 @@
 var Child = React.createClass({
+	getDefaultProps: function() {
+		return {
+			name: 'child'
+		}
+	},
+
   render: function() {
     return (
       <div>
