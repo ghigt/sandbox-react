@@ -1,0 +1,19 @@
+{
+  "name": "hello-world",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "babelify": "^7.2.0",
+    "react-dom": "^0.14.2",
+    "react": "^0.14.2",
+    "babel-preset-react": "^6.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "live-server",
+    "watch": "watchify -t [ babelify --presets [ react ] ] main.js -o bundle.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
