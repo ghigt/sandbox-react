@@ -25,7 +25,7 @@ export function next(state) {
 	if (entries.size === 1) {
 		return state.remove('vote')
 			          .remove('entries')
-								.set('winner', entries.first())
+								.set('winner', entries.first());
 	} else {
 		return state.merge({
 			vote: Map({ pair: entries.take(2) }),
