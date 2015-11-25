@@ -1,6 +1,3 @@
-import expect from 'expect';
-import deepFreeze from 'deep-freeze';
-
 // COMBINE REDUCER IMPLEMENTATION
 
 // This is our reducer for a single todo
@@ -50,24 +47,8 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
   }
 };
 
-// import { combineReducers } from 'redux';
-// Our implementation of the real combineReducers
-const combineReducers = (reducers) => {
-  return (state = {}, action) => {
-    return Object.keys(reducers).reduce(
-      (nextState, key) => {
-        nextState[key] = reducers[key](
-          state[key],
-          action
-        );
-        return nextState;
-      },
-      {}
-    );
-  };
-};
+import { combineReducers } from 'redux';
 
-// This is our reducer for the App
 const todoApp = combineReducers({
   todos,
   visibilityFilter

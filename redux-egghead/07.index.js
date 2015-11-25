@@ -1,6 +1,3 @@
-import expect from 'expect';
-import deepFreeze from 'deep-freeze';
-
 // REDUCER COMPOSITION
 
 // This is our reducer for a single todo

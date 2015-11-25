@@ -1,8 +1,6 @@
 /*
- * Extracting Action Creators
+ * Passing the Store Down Implicitly via Context
  */
-
-let nextTodoId = 1;
 
 // This is our reducer for a single todo
 const todo = (state, action) => {
@@ -51,28 +49,6 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
   }
 };
 
-const addTodo = (text) => {
-  return {
-    type: 'ADD_TODO',
-    text,
-    id: nextTodoId++
-  };
-};
-
-const setVisibilityFilter = (filter) => {
-  return {
-    type: 'SET_VISIBILITY_FILTER',
-    filter
-  };
-};
-
-const toggleTodo = (id) => {
-  return {
-    type: 'TOGGLE_TODO',
-    id
-  };
-};
-
 import { combineReducers } from 'redux';
 
 const todoApp = combineReducers({
@@ -97,22 +73,36 @@ const Link = ({ active, children, onClick }) => {
   </a>;
 };
 
-const mapStateToLinkProps = (state, ownProps) => {
-  return {
-    active: ownProps.filter === state.visibilityFilter
-  };
-};
+class FilterLink extends Component {
+  componentDidMount() {
+    const { store } = this.context;
+    this.unsubscribe = store.subscribe(() =>
+      this.forceUpdate()
+    );
+  }
 
-const mapDispatchToLinkProps = (dispatch, ownProps) => {
-  return {
-    onClick: () => dispatch(setVisibilityFilter(ownProps.filter))
-  };
-};
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
 
-const FilterLink = connect(
-  mapStateToLinkProps,
-  mapDispatchToLinkProps
-)(Link)
+  render() {
+    const props = this.props;
+    const { store } = this.context;
+    const state = store.getState();
+
+    return <Link active={props.filter === state.visibilityFilter}
+                 onClick={() =>
+                   store.dispatch({
+                     type: 'SET_VISIBILITY_FILTER',
+                     filter: props.filter
+                   })}>
+      {props.children}
+    </Link>;
+  }
+}
+FilterLink.contextTypes = {
+  store: PropTypes.object
+};
 
 const Footer = () => (
   <p>
@@ -143,21 +133,27 @@ const TodoList = ({ todos, onTodoClick }) => (
   </ul>
 );
 
-let AddTodo = ({ dispatch }) => {
+const AddTodo = (props, { store }) => {
   let input;
 
   return <div>
     <input ref={node => {input = node}} />
     <button type="button"
             onClick={() => {
-              dispatch(addTodo(input.value));
+              store.dispatch({
+                type: 'ADD_TODO',
+                text: input.value,
+                id: nextTodoId++
+              });
               input.value = '';
             }}>
       Add Todo
     </button>
   </div>;
 };
-AddTodo = connect()(AddTodo);
+AddTodo.contextTypes = {
+  store: PropTypes.object
+};
 
 const getVisibleTodos = (todos = [], filter) => {
   switch (filter) {
@@ -172,27 +168,37 @@ const getVisibleTodos = (todos = [], filter) => {
   };
 };
 
-const mapStateToTodoListProps = (state) => {
-  return {
-    todos: getVisibleTodos(
-      state.todos,
-      state.visibilityFilter
-    )
-  };
-};
-const mapDispatchToTodoListProps = (dispatch) => {
-  return {
-    onTodoClick: (id) => {
-      dispatch(toggleTodo(id))
-    }
-  };
-};
-import { connect } from 'react-redux';
-const VisibleTodoList = connect(
-  mapStateToTodoListProps,
-  mapDispatchToTodoListProps
-)(TodoList);
+class VisibleTodoList extends Component {
+  componentDidMount() {
+    const { store } = this.context;
+    this.unsubscribe = store.subscribe(() =>
+      this.forceUpdate()
+    );
+  }
 
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  render() {
+    const props = this.props;
+    const { store } = this.context;
+    const state = store.getState();
+
+    return <TodoList todos={getVisibleTodos(state.todos, state.visibilityFilter)}
+                     onTodoClick={id =>
+                       store.dispatch({
+                         type: 'TOGGLE_TODO',
+                         id
+                       })}
+    />;
+  }
+}
+VisibleTodoList.contextTypes = {
+  store: PropTypes.object
+};
+
+let nextTodoId = 1;
 
 const TodoApp = () => (
   <div>
@@ -202,7 +208,21 @@ const TodoApp = () => (
   </div>
 );
 
-import { Provider } from 'react-redux';
+class Provider extends Component {
+  getChildContext() {
+    return {
+      store: this.props.store
+    };
+  }
+
+  render() {
+    return this.props.children;
+  }
+}
+Provider.childContextTypes = {
+  store: PropTypes.object
+}
+
 import { createStore } from 'redux';
 
 ReactDOM.render(
