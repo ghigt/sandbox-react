@@ -16,7 +16,6 @@ const todo = (state, action) => {
       if (state.id !== action.id) {
         return state;
       }
-
       return {
         ...state,
         completed: !state.completed
@@ -75,46 +74,44 @@ const todoApp = combineReducers({
 });
 
 import { createStore } from 'redux';
+
 const store = createStore(todoApp);
 
-console.log('initial state:');
-console.log(store.getState());
-console.log('--------------');
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
-console.log('Dispatching ADD_TODO');
-store.dispatch({
-  type: 'ADD_TODO',
-  id: 0,
-  text: 'Learn Redux'
-});
-console.log('current state:');
-console.log(store.getState());
-console.log('--------------');
+let nextTodo = 1;
+class TodoApp extends Component {
+  render() {
+    return <div>
+      <input ref={node => {this.input = node}} />
+      <button type="button" onClick={() => {
+          store.dispatch({
+            type: 'ADD_TODO',
+            text: this.input.value,
+            id: nextTodo++
+          });
+          this.input.value = '';
+        }}>
+        Add Todo
+      </button>
+      <ul>
+        {this.props.todos.map(todo =>
+          <li key={todo.id}>
+            {todo.id} {todo.text}
+          </li>
+        )}
+      </ul>
+    </div>
+  }
+}
 
-console.log('Dispatching ADD_TODO');
-store.dispatch({
-  type: 'ADD_TODO',
-  id: 1,
-  text: 'Go shopping'
-});
-console.log('current state:');
-console.log(store.getState());
-console.log('--------------');
+const render = () => {
+  ReactDOM.render(
+    <TodoApp todos={store.getState().todos} />,
+    document.getElementById('root')
+  );
+}
 
-console.log('Dispatching TOGGLE_TODO');
-store.dispatch({
-  type: 'TOGGLE_TODO',
-  id: 1,
-});
-console.log('current state:');
-console.log(store.getState());
-console.log('--------------');
-
-console.log('Dispatching SET_VISIBILITY_FILTER');
-store.dispatch({
-  type: 'SET_VISIBILITY_FILTER',
-  filter: 'SHOW_COMPLETED',
-});
-console.log('current state:');
-console.log(store.getState());
-console.log('--------------');
+store.subscribe(render);
+render();
