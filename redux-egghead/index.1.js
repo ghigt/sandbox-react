@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import { connect, Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
 
-const SIZE = 10;
+const SIZE = 500;
 // const initialState = [{id: 1, marked: false}, {id: 2, marked: true}]
 
 const initialState = [...Array(SIZE).keys()].map(id => ({ id: id+1, marked: false }))
 
-function items(state = initialState, action) {
+function itemsReducer(state = initialState, action) {
   switch (action.type) {
   case 'MARK':
     return state.map((item) =>
@@ -20,6 +20,7 @@ function items(state = initialState, action) {
 }
 
 const Item = (props) => {
+  console.log('render Item')
   return <li
     onClick={props.onClick}
     style={{ textDecoration: props.marked ? 'line-through' : 'none' }}
@@ -56,7 +57,7 @@ const MyApp = connect(
 )(App);
 
 const itemApp = combineReducers({
-  items,
+  items: itemsReducer,
 });
 
 ReactDOM.render(
