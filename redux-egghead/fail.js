@@ -111,7 +111,7 @@ class PickVideoNo extends Component {
             </li>
           ))}
         </ul>
-        <button onClick={this.fetch.bind(this, this.props.page + 1)}>
+        <button onClick={this.fetch.bind(this, this.props.page)}>
           fetch page courante
         </button>
         <button onClick={this.fetch.bind(this, this.props.page + 1)}>
