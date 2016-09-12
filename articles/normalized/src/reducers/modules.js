@@ -1,13 +1,5 @@
+import dot from 'dot-prop-immutable';
 import { combineReducers } from 'redux'
-
-const module = (state = {}, action) => {
-  switch (action.type) {
-    case 'MODULE_UPDATE':
-      return { ...state, [action.field]: action.value };
-    default:
-      return state;
-  }
-}
 
 const initialState = {
   ids: [],
@@ -17,7 +9,9 @@ const initialState = {
 const ids = (state = initialState.ids, action) => {
   switch (action.type) {
     case 'MODULES_ADD':
-      return [ ...state, action.module.id ];
+      return [ ...state, action.value.id ];
+    case 'MODULES_REMOVE':
+      return state.filter(id => id !== action.id);
     default:
       return state;
   }
@@ -25,10 +19,12 @@ const ids = (state = initialState.ids, action) => {
 
 const items = (state = initialState.items, action) => {
   switch (action.type) {
-    case 'MODULE_UPDATE':
-      return { ...state, [action.id]: module(state[action.id], action)}
+    case 'MODULES_UPDATE':
+      return dot.set(state, action.field, action.value);
     case 'MODULES_ADD':
-      return { ...state, [action.module.id]: action.module };
+      return { ...state, [action.value.id]: action.value };
+    case 'MODULES_REMOVE':
+      return dot.delete(state, action.id);
     default:
       return state;
   }

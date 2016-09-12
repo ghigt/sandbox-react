@@ -1,28 +1,5 @@
-import { combineReducers } from 'redux'
-
-const modules = (state = [], action) => {
-  switch (action.type) {
-    case 'MODULES_ADD':
-      return [ ...state, action.module.id ];
-    case 'MODULES_REMOVE':
-      return state.filter(( id ) => id !== action.moduleId);
-    default:
-      return state;
-  }
-}
-
-const article = (state = {}, action) => {
-  switch (action.type) {
-    case 'ARTICLE_UPDATE':
-      return { ...state, [action.field]: action.value };
-    case 'MODULES_ADD':
-      return { ...state, moduleIds: modules(state.moduleIds, action) }
-    case 'MODULES_REMOVE':
-      return { ...state, moduleIds: modules(state.moduleIds, action) }
-    default:
-      return state;
-  }
-};
+import dot from 'dot-prop-immutable';
+import { combineReducers } from 'redux';
 
 const initialState = {
   ids: [],
@@ -31,8 +8,6 @@ const initialState = {
 
 const ids = (state = initialState.ids, action) => {
   switch (action.type) {
-    case 'ARTICLES_ADD':
-      return [ ...state, action.article.id ];
     default:
       return state;
   }
@@ -40,14 +15,15 @@ const ids = (state = initialState.ids, action) => {
 
 const items = (state = initialState.items, action) => {
   switch (action.type) {
-    case 'ARTICLE_UPDATE':
-      return { ...state, [action.id]: article(state[action.id], action)}
-    case 'ARTICLES_ADD':
-      return { ...state, [action.article.id]: action.article };
-    case 'MODULES_ADD':
-      return { ...state, [action.articleId]: article(state[action.articleId], action)}
-    case 'MODULES_REMOVE':
-      return { ...state, [action.articleId]: article(state[action.articleId], action)}
+    case 'ARTICLES_UPDATE':
+      return dot.set(state, action.field, action.value);
+    case 'ARTICLES_UPDATE_ADDING':
+      const length = dot.get(state, action.field).length;
+      return dot.set(state, `${action.field}.${length}`, action.value);
+    case 'ARTICLES_UPDATE_REMOVING':
+      const idx = dot.get(state, action.field)
+        .findIndex((value) => value === action.value);
+      return dot.delete(state, `${action.field}.${idx}`);
     default:
       return state;
   }

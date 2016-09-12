@@ -16,6 +16,7 @@ const initialStore = {
         title: 'Zizou a encore marqué',
         subtitle: 'Il est vraiment trop fort',
         moduleIds: ['e786405a', 'd9b11e13'],
+        tagIds: ['f906405b', 'p344s72']
       },
     },
   },
@@ -29,6 +30,19 @@ const initialStore = {
       'd9b11e13': {
         id: 'd9b11e13',
         name: 'Vidéo du but',
+      },
+    },
+  },
+  tags: {
+    ids: ['f906405b', 'p344s72'],
+    items: {
+      'f906405b': {
+        id: 'f906405b',
+        name: 'tennis',
+      },
+      'p344s72': {
+        id: 'p344s72',
+        name: 'football',
       },
     },
   },

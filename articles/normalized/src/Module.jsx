@@ -7,7 +7,10 @@ import * as modulesActionCreators from './actions/modules';
 class Module extends Component {
 
   update(field, { target: { value } }) {
-    this.props.actions.modules.update(this.props.module.id, field, value)
+    this.props.actions.modules.update(
+      `${this.props.module.id}.${field}`,
+      value
+    );
   }
 
   remove() {
