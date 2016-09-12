@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'
 const module = (state = {}, action) => {
   switch (action.type) {
     case 'MODULE_UPDATE':
-      return { ...state, [action.field]: action.module };
+      return { ...state, [action.field]: action.value };
     default:
       return state;
   }

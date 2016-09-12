@@ -2,8 +2,8 @@ import { v4 as uuid } from 'uuid';
 
 const ARTICLE_UPDATE = 'ARTICLE_UPDATE';
 
-export const update = (id, field, article) =>
-  ({ type: ARTICLE_UPDATE, id, field, article });
+export const update = (id, field, value) =>
+  ({ type: ARTICLE_UPDATE, id, field, value });
 
 /* MODULES */
 

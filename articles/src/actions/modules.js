@@ -1,4 +1,4 @@
 const MODULE_UPDATE = 'MODULE_UPDATE';
 
-export const update = (id, field, module) =>
-  ({ type: MODULE_UPDATE, id, field, module });
+export const update = (id, field, value) =>
+  ({ type: MODULE_UPDATE, id, field, value });

@@ -10,6 +10,7 @@ class Article extends Component {
 
   constructor(props) {
     super(props);
+
     this.addModule = this.addModule.bind(this);
     this.removeModule = this.removeModule.bind(this);
   }

@@ -14,7 +14,7 @@ const modules = (state = [], action) => {
 const article = (state = {}, action) => {
   switch (action.type) {
     case 'ARTICLE_UPDATE':
-      return { ...state, [action.field]: action.article };
+      return { ...state, [action.field]: action.value };
     case 'MODULES_ADD':
       return { ...state, moduleIds: modules(state.moduleIds, action) }
     case 'MODULES_REMOVE':
