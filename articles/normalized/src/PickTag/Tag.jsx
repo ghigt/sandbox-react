@@ -15,6 +15,6 @@ class Tag extends Component {
   }
 }
 export default connect(
-  ({ tags: { items }}, { id }) =>
-    ({ tag: items[id] })
+  ({ tags }, { id }) =>
+    ({ tag: tags[id] })
 )(Tag);

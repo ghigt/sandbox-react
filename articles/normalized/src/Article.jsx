@@ -71,8 +71,8 @@ class Article extends Component {
   }
 }
 export default connect(
-  ({ articles: { items }, tags: { items: tagItems } }, { id }) =>
-    ({ article: items[id], tags: tagItems }),
+  ({ articles, tags }, { id }) =>
+    ({ article: articles[id], tags }),
   (dispatch) => ({
     actions: {
       articles: bindActionCreators(articlesActionCreators, dispatch),

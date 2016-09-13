@@ -40,8 +40,8 @@ class Module extends Component {
   }
 }
 export default connect(
-  ({ modules: { items }}, { id }) =>
-    ({ module: items[id] }),
+  ({ modules }, { id }) =>
+    ({ module: modules[id] }),
   (dispatch) => ({
     actions: {
       modules: bindActionCreators(modulesActionCreators, dispatch)
