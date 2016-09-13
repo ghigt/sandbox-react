@@ -18,12 +18,9 @@ const items = (state = initialState.items, action) => {
     case 'ARTICLES_UPDATE':
       return dot.set(state, action.field, action.value);
     case 'ARTICLES_UPDATE_ADDING':
-      const length = dot.get(state, action.field).length;
-      return dot.set(state, `${action.field}.${length}`, action.value);
+      return dot.set(state, `${action.field}`, list => [ ...list, action.value ]);
     case 'ARTICLES_UPDATE_REMOVING':
-      const idx = dot.get(state, action.field)
-        .findIndex((value) => value === action.value);
-      return dot.delete(state, `${action.field}.${idx}`);
+      return dot.set(state, `${action.field}`, list => list.filter(value => value !== action.value))
     default:
       return state;
   }

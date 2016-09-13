@@ -7,6 +7,7 @@ import * as articlesActionCreators from './actions/articles';
 import * as modulesActionCreators from './actions/modules';
 
 import Modules from './Modules';
+import PickTag from './PickTag';
 
 class Article extends Component {
 
@@ -18,27 +19,18 @@ class Article extends Component {
   }
 
   update(field, { target: { value }}) {
-    this.props.actions.articles.update(
-      `${this.props.article.id}.${field}`,
-      value
-    );
+    this.props.actions.articles.update(`${this.props.article.id}.${field}`, value);
   }
 
   addModule() {
     const module = { id: uuid.v4().split('-')[0], name: '' };
 
     this.props.actions.modules.add(module);
-    this.props.actions.articles.updateAdding(
-      `${this.props.article.id}.moduleIds`,
-      module.id
-    );
+    this.props.actions.articles.updateByAdding(`${this.props.article.id}.moduleIds`, module.id);
   }
 
   removeModule(moduleId) {
-    this.props.actions.articles.updateRemoving(
-      `${this.props.article.id}.moduleIds`,
-      moduleId
-    );
+    this.props.actions.articles.updateByRemoving(`${this.props.article.id}.moduleIds`, moduleId);
     this.props.actions.modules.remove(moduleId);
   }
 
@@ -73,6 +65,7 @@ class Article extends Component {
             <li key={id}>{tags[id].name}</li>
           ))}
         </ul>
+        <PickTag />
       </div>
     )
   }

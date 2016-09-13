@@ -17,7 +17,7 @@ export default class PickTag extends Component {
           padding: '10px',
         }}
       >
-        <h2>Tags :</h2>
+        <h4>Tags :</h4>
         <Tags />
       </div>
     )
