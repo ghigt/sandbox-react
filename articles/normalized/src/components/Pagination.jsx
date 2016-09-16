@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 export default class Pagination extends Component {
   render() {
     const { page, pageCount, totalCount, onPageChange } = this.props;
+    const nbPages = ~~((totalCount - 1) / pageCount) + 1;
     console.log('render Pagination');
-    const nbPages = ~~((pageCount - 1) / totalCount) + 1;
 
     return (
       <div>

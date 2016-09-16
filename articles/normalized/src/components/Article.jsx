@@ -3,8 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import uuid from 'uuid';
 
-import * as articlesActionCreators from './actions/articles';
-import * as modulesActionCreators from './actions/modules';
+import * as articlesActionCreators from '../actions/articles';
+import * as modulesActionCreators from '../actions/modules';
 
 import Modules from './Modules';
 import PickTag from './PickTag';
@@ -14,8 +14,13 @@ class Article extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      isModalOpened: false
+    };
+
     this.addModule = this.addModule.bind(this);
     this.removeModule = this.removeModule.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   update(field, { target: { value }}) {
@@ -32,6 +37,10 @@ class Article extends Component {
   removeModule(moduleId) {
     this.props.actions.articles.updateByRemoving(`${this.props.article.id}.moduleIds`, moduleId);
     this.props.actions.modules.remove(moduleId);
+  }
+
+  toggleModal() {
+    this.setState({ isModalOpened: !this.state.isModalOpened });
   }
 
   render() {
@@ -65,7 +74,8 @@ class Article extends Component {
             <li key={id}>{tags[id].name}</li>
           ))}
         </ul>
-        <PickTag />
+        <button onClick={this.toggleModal}>Ajouter un tag</button>
+        {this.state.isModalOpened ? <PickTag onClose={this.toggleModal} /> : null}
       </div>
     )
   }

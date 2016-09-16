@@ -2,11 +2,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Tag from './Tag';
-import Pagination from './Pagination';
+import Pagination from '../Pagination';
 
 class Tags extends Component {
+
+  constructor(...args) {
+    super(...args);
+
+    this.onPageChange = this.onPageChange.bind(this);
+  }
+
+  onPageChange(page) {
+    this.props.onChange({ page });
+  }
+
   render() {
-    const { ids, page, pageCount, totalCount, onPageChange } = this.props;
+    const { ids, page, pageCount, totalCount } = this.props;
     console.log('render Tags');
 
     return (
@@ -29,7 +40,7 @@ class Tags extends Component {
             page={page}
             pageCount={pageCount}
             totalCount={totalCount}
-            onPageChange={onPageChange}
+            onPageChange={this.onPageChange}
           />
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as modulesActionCreators from './actions/modules';
+import * as modulesActionCreators from '../actions/modules';
 
 class Module extends Component {
 

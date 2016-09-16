@@ -3,41 +3,41 @@ import { connect } from 'react-redux';
 
 import Tags from './Tags';
 
+import './index.css';
+
 class PickTag extends Component {
 
   constructor(args) {
     super(...args);
 
-    this.onPageChange = this.onPageChange.bind(this);
+    this.fetch = this.fetch.bind(this);
   }
 
-  onPageChange(page) {
-    console.log(page);
+  fetch(options) {
+    this.props.actions.tags.fetch(Object.assign(
+      {
+        page: this.props.page,
+        pageCount: this.props.pageCount,
+        filters: this.props.filters,
+      },
+      options,
+    ));
   }
 
   render() {
-    const { pickTag } = this.props;
+    const { pickTag, onClose } = this.props;
     console.log('render PickTag');
 
     return (
-      <div
-        style={{
-          position: 'fixed',
-          width: '200px',
-          border: '1px solid #111',
-          right: '10px',
-          top: '10px',
-          padding: '10px',
-          textAlign: 'center',
-        }}
-      >
+      <div className="PickTag">
+        <i className="PickTag-close" onClick={onClose} />
         <h4 style={{ textAlign: 'center '}}>Tags</h4>
         <Tags
           ids={pickTag.ids}
           page={pickTag.page}
           pageCount={pickTag.pageCount}
           totalCount={pickTag.totalCount}
-          onPageChange={this.onPageChange}
+          onChange={this.fetch}
         />
       </div>
     )

@@ -7,7 +7,7 @@ class Tag extends Component {
     console.log(`render Tag #${tag.id}`);
 
     return (
-      <tr style={{ cursor: 'pointer' }}>
+      <tr className="pointer">
         <td>{tag.id}</td>
         <td>{tag.name}</td>
       </tr>

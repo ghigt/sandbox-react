@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import reducers from './reducers';
-import App from './App';
+import App from './components/App';
 import './index.css';
 
 const initialStore = {
@@ -47,7 +47,7 @@ const initialStore = {
       ids: ['p344s72', 'g792d90'],
       page: 1,
       pageCount: 10,
-      totalCount: 0,
+      totalCount: 2,
       filters: {},
     },
   },
