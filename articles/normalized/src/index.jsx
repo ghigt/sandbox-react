@@ -57,5 +57,5 @@ ReactDOM.render(
   <Provider store={createStore(reducers, initialStore)}>
     <App />
   </Provider>,
-  document.getElementById('root')
+  document.getElementsByClassName('root')[0]
 );

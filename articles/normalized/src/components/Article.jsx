@@ -3,11 +3,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import uuid from 'uuid';
 
+import styles from './styles.css';
+
 import * as articlesActionCreators from '../actions/articles';
 import * as modulesActionCreators from '../actions/modules';
 
 import Modules from './Modules';
-import PickTag from './PickTag';
+// import PickTag from './PickTag';
 
 class Article extends Component {
 
@@ -48,7 +50,7 @@ class Article extends Component {
     console.log('render Article');
 
     return (
-      <div style={{ margin: 10 }}>
+      <div className={styles.article}>
         <input
           placeholder="Titre"
           onChange={this.update.bind(this, 'title')}
@@ -75,7 +77,7 @@ class Article extends Component {
           ))}
         </ul>
         <button onClick={this.toggleModal}>Ajouter un tag</button>
-        {this.state.isModalOpened ? <PickTag onClose={this.toggleModal} /> : null}
+        {/* {this.state.isModalOpened ? <PickTag onClose={this.toggleModal} /> : null} */}
       </div>
     )
   }

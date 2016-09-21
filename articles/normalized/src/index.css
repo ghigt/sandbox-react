@@ -7,3 +7,10 @@ body {
 .pointer {
   cursor: pointer;
 }
+
+.root {
+  margin: 20px auto;
+  padding: 40px;
+  width: 700px;
+  background-color: #ececec;
+}
